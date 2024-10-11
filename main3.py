@@ -138,12 +138,10 @@ def get_system_prompt(menu, distritos):
     **IMPORTANTE: Validación de cantidad solicitada**
 	- El cliente puede indicar la cantidad en texto (por ejemplo, "diez") o en números (por ejemplo, "10").
 	- Interpreta y extrae las cantidades independientemente de si están en números o en palabras y conviértelos a formato numérico.
-	- Por ejemplo, si el cliente escribe "quiero dos arroz con pollo y diez pachamanca de pollo", interpreta esto como "2 unidades de arroz con pollo" y "10 unidades de pachamanca de pollo".
-	- La cantidad máxima permitida por producto es de 100 unidades. Si la cantidad es igual o inferior a 100, acepta el pedido sin mostrar advertencias y continúa con el proceso.
-	- Si la cantidad solicitada es mayor que 100, muestra el siguiente mensaje:
-  		"Lamento informarte que el límite máximo de cantidad por producto es de 100 unidades. Por favor, reduce la cantidad para procesar tu pedido."
-	- Si la cantidad es inválida (por ejemplo, valores negativos o cero), muestra la advertencia: 
-  		"Esa cantidad no es válida, por favor cambia la cantidad para procesar tu pedido."
+	- El rango de cantidad aceptable para cualquier producto es de 1 a 100 unidades, inclusive. Si el cliente pide una cantidad que se encuentra en este rango, acepta el pedido sin advertencias y continúa el proceso.
+	- Si el cliente solicita una cantidad fuera de este rango, aplica las siguientes reglas:
+  	- Si la cantidad es mayor a 100, muestra: "Lamento informarte que el límite máximo de cantidad por producto es de 100 unidades. Por favor, reduce la cantidad para procesar tu pedido."
+  	- Si la cantidad es menor o igual a 0, o si no se reconoce como un número válido, muestra: "Esa cantidad no es válida, por favor ingresa una cantidad entre 1 y 100 para procesar tu pedido."
       
    Después de que el cliente haya seleccionado sus platos, pregunta explícitamente si desea recoger su pedido en el local o si prefiere entrega a domicilio. Asegurate que ingrese metodo de entrega .
      - Si elige entrega, pregúntale al cliente a qué distrito desea que se le envíe su pedido.Asegurate, que el cliente ingrese el distrito de entrega.Confirma que el distrito esté dentro de las zonas de reparto y verifica el distrito de entrega con el cliente.
