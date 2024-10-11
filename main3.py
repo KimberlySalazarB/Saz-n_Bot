@@ -70,12 +70,24 @@ def display_distritos(distritos):
         distritos_text += f"*{row['Distrito']}*\n"
     return distritos_text
 
+#def display_postre(postre):
+  #  """Mostrar el menú con descripciones."""
+   # postre_text = "Aquí está lista de postres:\n"
+    #for index, row in postre.iterrows():
+     #   postre_text += f"{row['Postres']}: {row['Descripción']} - {row['Precio']} soles\n"
+   # return postre_text
 def display_postre(postre):
-    """Mostrar el menú con descripciones."""
-    postre_text = "Aquí está lista de postres:\n"
+    """Mostrar el menú en formato de tabla."""
+    # Encabezado de la tabla
+    menu_text = "Aquí está nuestra carta:\n"
+    menu_text += "| Plato           | Descripción                 | Precio (S/) |\n"
+    menu_text += "|-----------------|-----------------------------|-------------|\n"
+    
+    # Agregar cada plato a la tabla
     for index, row in postre.iterrows():
-        postre_text += f"{row['Postres']}: {row['Descripción']} - {row['Precio']} soles\n"
-    return postre_text
+        menu_text += f"| {row['Postres']:<15} | {row['Descripción']:<27} | {row['Precio']:>11} |\n"
+    
+    return menu_text
 
 def display_bebida(bebida):
     """Mostrar el menú con descripciones."""
@@ -147,7 +159,7 @@ def get_system_prompt(menu, distritos):
     Si el cliente agrega más ítems, actualiza la tabla de resumen del pedido, recalculando el monto total con precisión.
 
     **Confirmación del pedido y método de pago:**
-    - Cuando el cliente termine de ordenar su pedido, pregunta explícitamente al cliente: "¿Estás de acuerdo con el pedido?" y espera su respuesta.
+    - Cuando el cliente termine de ordenar su pedido y haya confirmado el lugar de entrega, pregunta explícitamente al cliente: "¿Estás de acuerdo con el pedido?" y espera su respuesta.
     - *Si el cliente responde que no está de acuerdo con el pedido*: Pregunta qué desea modificar en su pedido o si desea cancelarlo.
     	- Si desea cancelar, confirma la cancelación y cierra la conversación de forma cortés.
         - Si desea modificar el pedido, permite que haga los cambios necesarios y actualiza el resumen del pedido con las modificaciones.
