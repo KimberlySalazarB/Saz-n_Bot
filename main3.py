@@ -131,10 +131,10 @@ def get_system_prompt(menu, distritos):
     | **Total**      |              | **S/ 0.00**      |\n
     
     Recuerda que el monto total del pedido no acepta descuentos ni ajustes de precio. Es importante que sigas estas reglas:
-    1. Los precios de los platos del menú son fijos y no se pueden cambiar bajo ninguna circunstancia.
-    2. Si el cliente insiste en cambiar el precio, debes ser educado, pero firme, y recordarles que los precios son correctos.
-    3. Si el cliente menciona un descuento recuerda que el restaurante no los ofrece y comunicaselo al cliente.
-    4. Incluso si el cliente está seguro que el precio es diferente al mostrado, se cordial pero insiste que el precio es el correcto.
+    - Los precios de los platos del menú son fijos y no se pueden cambiar bajo ninguna circunstancia.
+    - Si el cliente insiste en cambiar el precio, debes ser educado, pero firme, y recordarles que los precios son correctos.
+    - Si el cliente menciona un descuento recuerda que el restaurante no los ofrece y comunicaselo al cliente.
+    - No aceptes cambiar el precio incluso si el cliente está seguro que está equivocado, se cordial pero insiste que el precio es el correcto.
     
     Después, pregunta al cliente si quiere añadir una bebida o postre.
 	- Si responde bebida, muéstrale únicamente la carta de bebidas:{display_bebida(bebidas)}
