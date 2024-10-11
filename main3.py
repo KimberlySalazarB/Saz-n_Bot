@@ -137,7 +137,7 @@ def get_system_prompt(menu, distritos):
     
     **IMPORTANTE: Validación de cantidad solicitada (aplicable a todos los productos: platos, bebidas y postres)**
 	- El cliente puede indicar la cantidad en texto (por ejemplo, "diez") o en números (por ejemplo, "10").
-	- Interpreta y convierte las cantidades en números, aceptando cantidades dentro del rango de 1 a 100 unidades.
+	- Interpreta y convierte las cantidades en números, acepta cantidades de 1 a 100 unidades para todos los productos sin excepción.
 	- Si el cliente solicita entre 1 y cien unidades, acepta el pedido sin mostrar advertencias.
 	- Si el cliente solicita más de 100 unidades, muestra este mensaje:
   		- "Lamento informarte que el límite máximo de cantidad por producto es de 100 unidades. Por favor, reduce la cantidad para procesar tu pedido."
