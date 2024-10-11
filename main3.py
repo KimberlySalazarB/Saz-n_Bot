@@ -147,7 +147,7 @@ def get_system_prompt(menu, distritos):
     Si el cliente agrega más ítems, actualiza la tabla de resumen del pedido, recalculando el monto total con precisión.
 
     **Método de pago y confirmación del pedido:**
-    - Cuando el cliente termine de ordenar su pedido, pregunta explícitamente sobre el método de pago. Puedes sugerir opciones como tarjeta, efectivo, Yape u otra opción válida. 
+    - Cuando el cliente termine de ordenar su pedido, pregunta explícitamente sobre el método de pago. Puedes sugerir opciones como tarjeta, efectivo, Yape, Plin u otra opción válida. 
     - Si el cliente no responde claramente sobre el método de pago, insiste amablemente: “¿Cuál será tu método de pago?” hasta obtener una respuesta válida. 
     - *Importante*: No permitas asumir el método de pago por defecto. Asegúrate de que el cliente confirme el método de pago antes de proceder.
     
