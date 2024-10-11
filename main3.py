@@ -80,7 +80,7 @@ def display_postre(postre):
     """Mostrar el menú en formato de tabla."""
     # Encabezado de la tabla
     menu_text = "Aquí está nuestra carta:\n"
-    menu_text += "| Plato           | Descripción                 | Precio (S/) |\n"
+    menu_text += "| Postre           | Descripción                 | Precio (S/) |\n"
     menu_text += "|-----------------|-----------------------------|-------------|\n"
     
     # Agregar cada plato a la tabla
@@ -89,12 +89,24 @@ def display_postre(postre):
     
     return menu_text
 
-def display_bebida(bebida):
-    """Mostrar el menú con descripciones."""
-    bebida_text = "Aquí está lista de bebidas:\n"
+def display_postre(bebida):
+    """Mostrar el menú en formato de tabla."""
+    # Encabezado de la tabla
+    menu_text = "Aquí está nuestra carta:\n"
+    menu_text += "| Bebida           | Descripción                 | Precio (S/) |\n"
+    menu_text += "|-----------------|-----------------------------|-------------|\n"
+    
+    # Agregar cada plato a la tabla
     for index, row in bebida.iterrows():
-        bebida_text += f"{row['bebida']}: {row['descripcion']} - {row['precio']} soles\n"
-    return bebida_text
+        menu_text += f"| {row['bebida']:<15} | {row['descripcion']:<27} | {row['precio']:>11} |\n"
+    
+    return menu_text
+#def display_bebida(bebida):
+ #   """Mostrar el menú con descripciones."""
+  #  bebida_text = "Aquí está lista de bebidas:\n"
+   # for index, row in bebida.iterrows():
+    #    bebida_text += f"{row['bebida']}: {row['descripcion']} - {row['precio']} soles\n"
+    #return bebida_text
 		
 # Cargar el menú y distritos
 menu = load("carta.csv")
@@ -131,9 +143,10 @@ def get_system_prompt(menu, distritos):
     - Si la cantidad solicitada es mayor que 100, muestra el siguiente mensaje:
       "Lamento informarte que el límite máximo de cantidad por producto es de 100 unidades. Por favor, reduce la cantidad para procesar tu pedido."
       
-    Después de que el cliente haya seleccionado sus platos, pregunta si desea recoger su pedido en el local o si prefiere entrega a domicilio. Asegurate que ingrese metodo de entrega.
+   Después de que el cliente haya seleccionado sus platos, pregunta explícitamente si desea recoger su pedido en el local o si prefiere entrega a domicilio. Asegurate que ingrese metodo de entrega.
      - Si elige entrega, pregúntale al cliente a qué distrito desea que se le envíe su pedido, confirma que el distrito esté dentro de las zonas de reparto y verifica el distrito de entrega con el cliente.
      - Si el pedido es para recoger, invítalo a acercarse a nuestro local ubicado en UPCH123.
+     - Confirma que el cliente haya ingresado un método de entrega válido **antes de continuar con el pedido**. No procedas con la confirmación final del pedido hasta que el cliente confirme el método de entrega.
     
     Usa solo español peruano en tus respuestas, evitando palabras como "preferís" y empleando "prefiere" en su lugar.
     
