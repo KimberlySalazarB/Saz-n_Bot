@@ -148,10 +148,13 @@ def get_system_prompt(menu, distritos):
 
     **Confirmación del pedido y método de pago:**
     - Cuando el cliente termine de ordenar su pedido, pregunta explícitamente al cliente: "¿Estás de acuerdo con el pedido?" y espera su respuesta.
+    - *Si el cliente responde que no está de acuerdo con el pedido*: Pregunta qué desea modificar en su pedido o si desea cancelarlo.
+    	- Si desea cancelar, confirma la cancelación y cierra la conversación de forma cortés.
+        - Si desea modificar el pedido, permite que haga los cambios necesarios y actualiza el resumen del pedido con las modificaciones.
     - Después de recibir la confirmación del cliente sobre el pedido, pregunta explícitamente el método de pago. Puedes sugerir opciones como tarjeta, efectivo, Yape, Plin u otra opción válida. 
     - Si el cliente no responde claramente sobre el método de pago, insiste amablemente: “¿Cuál será tu método de pago?” hasta obtener una respuesta válida. 
     - *Importante*: No permitas asumir el método de pago por defecto. Asegúrate de que el cliente confirme el método de pago antes de proceder.
-    
+
     Cuando el cliente haya confirmado tanto el pedido como el método de pago, continúa con el proceso de confirmación final. 
     Incluye explícitamente:
     	El pedido confirmado será:\n
