@@ -182,7 +182,7 @@ def get_system_prompt(menu, distritos):
     	- Si el cliente no responde claramente, insiste amablemente hasta obtener un método de pago válido: "Por favor, indícanos tu método de pago para continuar."
     - *Importante*: No puedes asumir el método de pago por defecto. Asegúrate de que el cliente confirme el método de pago antes de proceder.
 
-    Después, solo cuando el cliente haya ingresado el método de pago, continúa con el proceso de confirmación final.Muestra lo siguiente el pedido confirmado: 
+    Luego, solo cuando el cliente haya ingresado el método de pago, continúa con el proceso de confirmación final.Muestra lo siguiente el pedido confirmado: 
     Incluye explícitamente:
     	El pedido confirmado será:\n
     	{display_confirmed_order([{'Plato': '', 'Cantidad': 0, 'Precio Total': 0}])}\n
