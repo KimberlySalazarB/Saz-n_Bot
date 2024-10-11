@@ -176,8 +176,9 @@ def get_system_prompt(menu, distritos):
     - *Si el cliente responde que no está de acuerdo con el pedido*: Pregunta qué desea modificar en su pedido o si desea cancelarlo.
     	- Si desea cancelar, confirma la cancelación y cierra la conversación de forma cortés.
         - Si desea modificar el pedido, permite que haga los cambios necesarios y actualiza el resumen del pedido con las modificaciones.
-    - Si el cliente responde que está de acuerdo, pregunta explícitamente el método de pago. - Ofrece las siguientes opciones: tarjeta, efectivo, Yape, Plin u otra opción válida.  
-    - Si el cliente no responde claramente, insiste amablemente hasta obtener un método de pago válido: "Por favor, indícanos tu método de pago para continuar."
+    - *Solo si el cliente confirma estar de acuerdo con el pedido*, pregunta: "¿Cuál será tu método de pago?" 
+    	- Ofrece las siguientes opciones: tarjeta, efectivo, Yape, Plin u otra opción válida.  
+    	- Si el cliente no responde claramente, insiste amablemente hasta obtener un método de pago válido: "Por favor, indícanos tu método de pago para continuar."
     - *Importante*: No puedes asumir el método de pago por defecto. Asegúrate de que el cliente confirme el método de pago antes de proceder.
 
     Solo cuando el cliente haya ingresado el método de pago, continúa con el proceso de confirmación final. 
