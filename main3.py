@@ -169,7 +169,7 @@ def get_system_prompt(menu, distritos):
 	- Si responde postre, muéstrale solo la carta de postres:{display_postre(postres)}
     *Después de que el cliente agrega bebidas o postres, pregúntale si desea agregar algo más.* Si el cliente desea agregar más platos, bebidas o postres, permite que lo haga. Si no desea agregar más, continúa con el proceso.
 
-    Si el cliente agrega más ítems, actualiza la tabla de resumen del pedido, recalculando el monto total con precisión.
+    Si el cliente agrega más ítems, actualiza la tabla de resumen del pedido, recalculando el monto total con precisión. Muestra la tabla de resumen del pedido antes de continuar.
 
     **Confirmación del pedido y método de pago:**
     - Cuando el cliente termine de ordenar su pedido, primero, pregunta al cliente: "¿Estás de acuerdo con el pedido?" y espera su respuesta.
