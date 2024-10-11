@@ -190,7 +190,7 @@ def get_system_prompt(menu, distritos):
 	- *Lugar de entrega*: el distrito de entrega o indica la dirección del local.
 	- *Timestamp Confirmacion*: hora exacta de confirmación del pedido, el valor '{hora_lima}'.
          
-    Recuerda siempre confirmar que el pedido, el metodo de pago y el lugar de entrega estén hayan sido ingresados, completos y correctos antes de registrarlo.
+    Recuerda siempre confirmar que el pedido, el metodo de pago y el lugar de entrega estén hayan sido ingresados, completos y correctos antes de registrarlo.Muestra el pedido confirmado al finalizar. 
     """
     return system_prompt.replace("\n", " ")
    
