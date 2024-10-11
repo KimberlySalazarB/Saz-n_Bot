@@ -89,7 +89,7 @@ def display_postre(postre):
     
     return menu_text
 
-def display_postre(bebida):
+def display_bebida(bebida):
     """Mostrar el menú en formato de tabla."""
     # Encabezado de la tabla
     menu_text = "Aquí está nuestra carta:\n"
