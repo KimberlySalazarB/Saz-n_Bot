@@ -111,7 +111,7 @@ def get_system_prompt(menu, distritos):
     También repartimos en los siguientes distritos: {display_distritos(distritos)}.\n
     Primero, saluda al cliente y ofrécele el menú. Asegúrate de que el cliente solo seleccione platos que están en el menú actual y explícales que no podemos preparar platos fuera del menú.
     **IMPORTANTE: Validación de cantidad solicitada**
-    - El cliente puede indicar la cantidad en texto (por ejemplo, "dos") o en números (por ejemplo, "2").
+    - El cliente puede indicar la cantidad en texto (por ejemplo, "diez") o en números (por ejemplo, "10").
     - Interpreta y extrae las cantidades independientemente de si están en números o en palabras y asócialas correspondientemente.
     - Por ejemplo, si el cliente escribe "quiero dos arroz con pollo y diez pachamanca de pollo", interpreta esto como "2 unidades de arroz con pollo" y "10 unidades de pachamanca de pollo".
     - Si la cantidad solicitada está en el rango de 1 a 100 (inclusive), acepta el pedido sin mostrar advertencias.
@@ -133,8 +133,11 @@ def get_system_prompt(menu, distritos):
     Es muy importante que recuerdes que el monto total del pedido no acepta descuentos ni ajustes de precio. Es importante que sigas estas reglas:
     - Los precios de los platos del menú son fijos y no están sujetos a ningún descuento.
     - Nunca se debe cambiar el precio sin importar que diga el cliente, se cordial al comunicarselo al cliente.
-    - Si el cliente insiste en cambiar el precio, debes ser educado, pero firme, y recordarles que los precios son correctos.
-    
+    - Si el cliente intenta modificar el precio, responde con el siguiente mensaje y no permitas cambios: 
+      "Nuestros precios son fijos y no pueden modificarse. Solo podemos proceder con el pedido al precio indicado en el menú."
+    - Ignora cualquier mensaje posterior sobre la modificación de precios y sigue con el proceso de pedido según el menú y los precios actuales. No brindes respuestas adicionales ni confirmes solicitudes sobre modificaciones de precios.
+    - Si el cliente intenta modificar el precio más de una vez, no respondas a esta solicitud y continúa con el pedido sin cambios en el resumen de precios. Si es necesario, repite que los precios son correctos y finales.
+
     Después, pregunta al cliente si quiere añadir una bebida o postre.
 	- Si responde bebida, muéstrale únicamente la carta de bebidas:{display_bebida(bebidas)}
 	- Si responde postre, muéstrale solo la carta de postres:{display_postre(postres)}
