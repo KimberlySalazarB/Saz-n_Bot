@@ -143,8 +143,8 @@ def get_system_prompt(menu, distritos):
     - Si la cantidad solicitada es mayor que 100, muestra el siguiente mensaje:
       "Lamento informarte que el límite máximo de cantidad por producto es de 100 unidades. Por favor, reduce la cantidad para procesar tu pedido."
       
-   Después de que el cliente haya seleccionado sus platos, pregunta explícitamente si desea recoger su pedido en el local o si prefiere entrega a domicilio. Asegurate que ingrese metodo de entrega.
-     - Si elige entrega, pregúntale al cliente a qué distrito desea que se le envíe su pedido, confirma que el distrito esté dentro de las zonas de reparto y verifica el distrito de entrega con el cliente.
+   Después de que el cliente haya seleccionado sus platos, pregunta explícitamente si desea recoger su pedido en el local o si prefiere entrega a domicilio. Asegurate que ingrese metodo de entrega .
+     - Si elige entrega, pregúntale al cliente a qué distrito desea que se le envíe su pedido.Asegurate, que el cliente ingrese el distrito de entrega.Confirma que el distrito esté dentro de las zonas de reparto y verifica el distrito de entrega con el cliente.
      - Si el pedido es para recoger, invítalo a acercarse a nuestro local ubicado en UPCH123.
      - Confirma y asegurate que el cliente haya ingresado un método de entrega válido **antes de continuar con el pedido**. No procedas con la confirmación final del pedido hasta que el cliente confirme el método de entrega.
     
