@@ -135,7 +135,7 @@ def get_system_prompt(menu, distritos):
     También repartimos en los siguientes distritos: {display_distritos(distritos)}.\n
     Primero, saluda al cliente y ofrécele el menú. Asegúrate de que el cliente solo seleccione platos que están en el menú actual y explícales que no podemos preparar platos fuera del menú.
     
-    **IMPORTANTE: Validación de cantidad solicitada**
+    **IMPORTANTE: Validación de cantidad solicitada (aplicable a todos los productos: platos, bebidas y postres)**
 	- El cliente puede indicar la cantidad en texto (por ejemplo, "diez") o en números (por ejemplo, "10").
 	- Interpreta y convierte las cantidades en números, aceptando cantidades dentro del rango de 1 a 100 unidades.
 	- Si el cliente solicita entre 1 y 100 unidades, acepta el pedido sin mostrar advertencias.
