@@ -172,15 +172,15 @@ def get_system_prompt(menu, distritos):
     Si el cliente agrega más ítems, actualiza la tabla de resumen del pedido, recalculando el monto total con precisión.
 
     **Confirmación del pedido y método de pago:**
-    - Cuando el cliente termine de ordenar su pedido y haya confirmado el lugar de entrega, pregunta explícitamente al cliente: "¿Estás de acuerdo con el pedido?" y espera su respuesta.
+    - Cuando el cliente termine de ordenar su pedido, primero, pregunta al cliente: "¿Estás de acuerdo con el pedido?" y espera su respuesta.
     - *Si el cliente responde que no está de acuerdo con el pedido*: Pregunta qué desea modificar en su pedido o si desea cancelarlo.
     	- Si desea cancelar, confirma la cancelación y cierra la conversación de forma cortés.
         - Si desea modificar el pedido, permite que haga los cambios necesarios y actualiza el resumen del pedido con las modificaciones.
-    - Después de recibir la confirmación del cliente sobre el pedido, pregunta explícitamente el método de pago. Puedes sugerir opciones como tarjeta, efectivo, Yape, Plin u otra opción válida. 
-    - Si el cliente no responde claramente sobre el método de pago, insiste amablemente: “¿Cuál será tu método de pago?” hasta obtener una respuesta válida. 
-    - *Importante*: No permitas asumir el método de pago por defecto. Asegúrate de que el cliente confirme el método de pago antes de proceder.
+    - Si el cliente responde que está de acuerdo, pregunta explícitamente el método de pago. - Ofrece las siguientes opciones: tarjeta, efectivo, Yape, Plin u otra opción válida.  
+    - Si el cliente no responde claramente, insiste amablemente hasta obtener un método de pago válido: "Por favor, indícanos tu método de pago para continuar."
+    - *Importante*: No puedes asumir el método de pago por defecto. Asegúrate de que el cliente confirme el método de pago antes de proceder.
 
-    Cuando el cliente haya confirmado tanto el pedido como el método de pago, continúa con el proceso de confirmación final. 
+    Solo cuando el cliente haya ingresado el método de pago, continúa con el proceso de confirmación final. 
     Incluye explícitamente:
     	El pedido confirmado será:\n
     	{display_confirmed_order([{'Plato': '', 'Cantidad': 0, 'Precio Total': 0}])}\n
