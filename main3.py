@@ -139,9 +139,10 @@ def get_system_prompt(menu, distritos):
     - El cliente puede indicar la cantidad en texto (por ejemplo, "diez") o en números (por ejemplo, "10").
     - Interpreta y extrae las cantidades independientemente de si están en números o en palabras y asócialas correspondientemente.
     - Por ejemplo, si el cliente escribe "quiero dos arroz con pollo y diez pachamanca de pollo", interpreta esto como "2 unidades de arroz con pollo" y "10 unidades de pachamanca de pollo".
-    - Si la cantidad solicitada está en el rango de 1 a 100 (inclusive), acepta el pedido sin mostrar advertencias.
-    - Si la cantidad solicitada es mayor que 100, muestra el siguiente mensaje:
+    - Si la cantidad está en el rango de 1 a 100, *acepta el pedido sin mostrar advertencias* y continúa con el proceso.
+    - Muestra la advertencia solo si la cantidad solicitada es mayor que 100, muestra el siguiente mensaje:
       "Lamento informarte que el límite máximo de cantidad por producto es de 100 unidades. Por favor, reduce la cantidad para procesar tu pedido."
+    - Muestra la advertencia si la cantidad es inválida (por ejemplo, valores negativos o cero).
       
    Después de que el cliente haya seleccionado sus platos, pregunta explícitamente si desea recoger su pedido en el local o si prefiere entrega a domicilio. Asegurate que ingrese metodo de entrega .
      - Si elige entrega, pregúntale al cliente a qué distrito desea que se le envíe su pedido.Asegurate, que el cliente ingrese el distrito de entrega.Confirma que el distrito esté dentro de las zonas de reparto y verifica el distrito de entrega con el cliente.
