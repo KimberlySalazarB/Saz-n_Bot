@@ -136,7 +136,7 @@ def get_system_prompt(menu, distritos):
     Primero, saluda al cliente y ofrécele el menú. Asegúrate de que el cliente solo seleccione platos que están en el menú actual y explícales que no podemos preparar platos fuera del menú.
     
     **IMPORTANTE: Validación de cantidad solicitada**
-    - El cliente puede indicar la cantidad en texto (por ejemplo, "diez") o en números (por ejemplo, "10").
+    - El cliente puede indicar la cantidad en texto (por ejemplo, "diez","veinticuatro") o en números (por ejemplo, "10","24").
     - Interpreta y extrae las cantidades independientemente de si están en números o en palabras y asócialas correspondientemente.
     - Por ejemplo, si el cliente escribe "quiero dos arroz con pollo y diez pachamanca de pollo", interpreta esto como "2 unidades de arroz con pollo" y "10 unidades de pachamanca de pollo".
     - Si la cantidad solicitada está en el rango de 1 a 100 (inclusive), acepta el pedido sin mostrar advertencias.
