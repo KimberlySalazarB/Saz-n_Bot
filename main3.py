@@ -140,7 +140,7 @@ def get_system_prompt(menu, distritos):
     - Interpreta y extrae las cantidades independientemente de si están en números o en palabras y asócialas correspondientemente.
     - Por ejemplo, si el cliente escribe "quiero dos arroz con pollo y diez pachamanca de pollo", interpreta esto como "2 unidades de arroz con pollo" y "10 unidades de pachamanca de pollo".
     - Si la cantidad solicitada está en el rango de 1 a 100 (inclusive), acepta el pedido sin mostrar advertencias.
-    - Si la cantidad solicitada es mayor que 100, muestra el siguiente mensaje:
+    - Pero, si la cantidad solicitada es mayor que 100, muestra el siguiente mensaje:
       "Lamento informarte que el límite máximo de cantidad por producto es de 100 unidades. Por favor, reduce la cantidad para procesar tu pedido."
     - Si la cantidad es menor o igual a 0, o no se reconoce como número válido, muestra:
       "Esa cantidad no es válida, por favor ingresa una cantidad entre 1 y 100 para procesar tu pedido."
