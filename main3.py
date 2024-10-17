@@ -139,7 +139,7 @@ def get_system_prompt(menu, distritos):
 	
      Debes identificar números en el mensaje del usuario. 
      Si la cantidad de platos es mayor a 100 o menor a 1, infórmale que debe elegir una cantidad entre 1 y 100. 
-     Utiliza la función {verificar_rango()} para validar la cantidad.
+     Utiliza la función verificar_rango() para validar la cantidad.
       
    Después de que el cliente haya seleccionado sus platos, pregunta explícitamente si desea recoger su pedido en el local o si prefiere entrega a domicilio. Asegurate que ingrese metodo de entrega .
      - Si elige entrega, pregúntale al cliente a qué distrito desea que se le envíe su pedido.Asegurate, que el cliente ingrese el distrito de entrega.Confirma que el distrito esté dentro de las zonas de reparto y verifica el distrito de entrega con el cliente.
