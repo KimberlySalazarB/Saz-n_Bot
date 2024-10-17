@@ -13,7 +13,13 @@ import nltk
 import os
 
 # Configurar el directorio de datos de NLTK
-nltk_data_path = os.path.join(os.path.dirname(_file_), 'nltk_data')
+if '_file_' in globals():
+    script_dir = os.path.dirname(os.path.abspath(_file_))
+else:
+    # En entornos como Streamlit Cloud, _file_ puede no estar definido
+    script_dir = os.getcwd()
+
+nltk_data_path = os.path.join(script_dir, 'nltk_data')
 if not os.path.exists(nltk_data_path):
     os.makedirs(nltk_data_path)
 nltk.data.path.append(nltk_data_path)
@@ -308,9 +314,6 @@ if prompt := st.chat_input():
     else:
         with st.chat_message("user", avatar="👤"):
             st.markdown(prompt)
-        output = generate_response(prompt)
-        with st.chat_message("assistant", avatar="👨‍🍳"):
-            st.markdown(output)
         output = generate_response(prompt)
         with st.chat_message("assistant", avatar="👨‍🍳"):
             st.markdown(output)
