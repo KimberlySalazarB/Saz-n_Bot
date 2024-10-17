@@ -135,9 +135,10 @@ def get_system_prompt(menu, distritos):
     También repartimos en los siguientes distritos: {display_distritos(distritos)}.\n
     Primero, saluda al cliente y ofrécele el menú. Asegúrate de que el cliente solo seleccione platos que están en el menú actual y explícales que no podemos preparar platos fuera del menú.
 	
-     Al recibir un pedido, debes identificar las cantidades solicitadas y verificar si son menores o iguales al stock {menu["Stock"]} disponible de cada producto. 
-     Si la cantidad solicitada excede el stock, debes informar al usuario sobre el stock disponible para ese producto y pedirle que ajuste su pedido. 
-     No proceses el pedido hasta que todas las cantidades sean válidas según el stock.
+     Al recibir un pedido, verifica que la cantidad solicitada por el cliente no supere las 100 unidades disponibles por producto.
+     Si un cliente pide más de lo que tenemos en stock, informa amablemente que solo tenemos 100 unidades disponibles y pídele que ajuste su pedido. 
+     Por ejemplo, si el cliente pide 150 unidades de un producto, indícale que solo tenemos 100 disponibles y pídele que modifique su pedido. 
+     No proceses el pedido hasta que todas las cantidades sean válidas.
       
    Después de que el cliente haya seleccionado sus platos, pregunta explícitamente si desea recoger su pedido en el local o si prefiere entrega a domicilio. Asegurate que ingrese metodo de entrega .
      - Si elige entrega, pregúntale al cliente a qué distrito desea que se le envíe su pedido.Asegurate, que el cliente ingrese el distrito de entrega.Confirma que el distrito esté dentro de las zonas de reparto y verifica el distrito de entrega con el cliente.
