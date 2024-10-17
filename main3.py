@@ -138,8 +138,8 @@ def get_system_prompt(menu, distritos):
     Primero, saluda al cliente y ofrécele el menú. Asegúrate de que el cliente solo seleccione platos que están en el menú actual y explícales que no podemos preparar platos fuera del menú.
 
      El cliente puede indicar la cantidad en texto (por ejemplo, "cinco", "veintitrés", "cincuenta") o en números (por ejemplo, "5", "23", "50")
-     Debes identificar números en el mensaje del usuario. 
-     Si las cantidades de platos es mayor a 100 o menor a 1, infórmale que debe elegir una cantidad entre 1 y 100. 
+     Debes identificar las cantidades en el mensaje del usuario. 
+     Si las cantidades de platos es mayor a 100 o menor a 1 o 0, infórmale que debe elegir una cantidad entre 1 y 100. 
      Utiliza la función verificar_rango() para validar la cantidad.
       
    Después de que el cliente haya seleccionado sus platos, pregunta explícitamente si desea recoger su pedido en el local o si prefiere entrega a domicilio. Asegurate que ingrese metodo de entrega .
