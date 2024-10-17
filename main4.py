@@ -9,6 +9,7 @@ import pytz
 import json
 import logging
 from word2number import w2n  # Importación necesaria para convertir palabras a números
+import unicodedata
 
 # Configura el logger
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -81,6 +82,14 @@ distritos = load("distritos.csv")
 bebidas = load("Bebidas.csv")
 postres = load("Postres.csv")
 
+# Obtener todos los nombres de productos
+menu_items = menu['Plato'].tolist()
+bebida_items = bebidas['bebida'].tolist()
+postre_items = postres['Postres'].tolist()
+
+# Combinar todos los ítems
+all_menu_items = menu_items + bebida_items + postre_items
+
 def display_confirmed_order(order_details):
     """Genera una tabla en formato Markdown para el pedido confirmado."""
     table = "| *Plato* | *Cantidad* | *Precio Total* |\n"
@@ -89,6 +98,15 @@ def display_confirmed_order(order_details):
         table += f"| {item['Plato']} | {item['Cantidad']} | S/{item['Precio Total']:.2f} |\n"
     table += "| *Total* |              | *S/ {:.2f}*      |\n".format(sum(item['Precio Total'] for item in order_details))
     return table
+
+def normalize_text(text):
+    """Elimina acentos y convierte a minúsculas."""
+    text = text.lower()
+    text = ''.join(
+        c for c in unicodedata.normalize('NFD', text)
+        if unicodedata.category(c) != 'Mn'
+    )
+    return text
 
 def get_system_prompt(menu, distritos):
     """Define el prompt del sistema para el bot de Sazón incluyendo el menú y distritos."""
@@ -109,6 +127,8 @@ def get_system_prompt(menu, distritos):
       "Lamento informarte que el límite máximo de cantidad por producto es de 100 unidades. Por favor, reduce la cantidad para procesar tu pedido."
 
     - Si el usuario solicita múltiples productos en un solo mensaje, procesa cada uno de ellos siguiendo las mismas reglas.
+
+    Si el cliente solicita un producto que no está en el menú, infórmale amablemente que no lo tenemos disponible y sugiérele elegir otro plato del menú.
 
     Pregunta si desea recoger su pedido en el local o si prefiere entrega a domicilio. 
     Si elige entrega, pregúntale al cliente a qué distrito desea que se le envíe su pedido, confirma que el distrito esté dentro de las zonas de reparto y verifica el distrito de entrega con el cliente.
@@ -143,77 +163,14 @@ def get_system_prompt(menu, distritos):
     return system_prompt.replace("\n", " ")
 
 def extract_order_json(response):
-    """Extrae el pedido confirmado en formato JSON desde la respuesta del bot solo si todos los campos tienen valores completos."""
-    prompt = f"""
-    	Extrae únicamente la información visible y explícita del pedido confirmado de la siguiente respuesta: '{response}'.
-    	Si el pedido está confirmado en el texto, devuelve el resultado en formato JSON con las siguientes claves:
-    	- 'Platos': una lista de platos donde cada plato incluye su cantidad y precio_total.
-    	- 'Total': el monto total del pedido.
-    	- 'metodo de pago': el método de pago elegido por el cliente.
-    	- 'lugar_entrega': el lugar de entrega especificado por el cliente (en el local o en el distrito indicado).
-    	- 'timestamp_confirmacion': la marca de tiempo del momento en que se confirma el pedido.
-
-    	Si algún campo como 'metodo de pago', 'lugar_entrega' o 'timestamp_confirmacion' no aparece explícitamente en la respuesta del cliente, asigna el valor null a ese campo.
-
-    	Si el pedido no está confirmado explícitamente en la respuesta, devuelve un diccionario vacío.
-    	No generes, interpretes, ni asumas valores que no estén presentes en la respuesta."""
-    extraction = client.chat.completions.create(
-        messages=[
-            {"role": "system", "content": "Eres un asistente que extrae el pedido confirmado en JSON. Responde solo con un JSON o un diccionario vacío."},
-            {"role": "user", "content": prompt}
-        ],
-        model="gpt-3.5-turbo",
-        temperature=0.5,
-        max_tokens=300,
-        top_p=1,
-        stop=None,
-        stream=False,
-    )
-    response_content = extraction.choices[0].message.content
-
-    # Intenta cargar como JSON
-    try:
-        order_json = json.loads(response_content)
-        st.markdown(order_json)
-        st.markdown(type(order_json))
-        # Verifica si el JSON es un diccionario
-        if isinstance(order_json, dict):
-            if all(order_json[key] not in (None, '', [], {}) for key in order_json):
-                return order_json
-            else:
-                print("Advertencia: Hay claves con valores nulos o vacíos en el pedido.")
-                return {}
-        elif isinstance(order_json, list):
-            print("Advertencia: Se recibió una lista en lugar de un diccionario.")
-            return {}
-        else:
-            return {}
-    except json.JSONDecodeError:
-        # Manejo de error en caso de que el JSON no sea válido
-        return {}
+    # ... (sin cambios)
+    pass  # Mantén la implementación existente
 
 def generate_response(prompt, temperature=0.5, max_tokens=1000):
-    """Enviar el prompt a OpenAI y devolver la respuesta con un límite de tokens."""
-    st.session_state["messages"].append({"role": "user", "content": prompt})
+    # ... (sin cambios)
+    pass  # Mantén la implementación existente
 
-    completion = client.chat.completions.create(
-        model="gpt-3.5-turbo",
-        messages=st.session_state["messages"],
-        temperature=temperature,
-        max_tokens=max_tokens,
-        stream=False,
-    )
-    response = completion.choices[0].message.content
-    st.session_state["messages"].append({"role": "assistant", "content": response})
-    # Extraer JSON del pedido confirmado
-    order_json = extract_order_json(response)
-    st.markdown(order_json)
-    st.markdown(type(order_json))
-    logging.info(json.dumps(order_json, indent=4) if order_json else '{}')
-    return response
-
-# Función para convertir cantidades escritas en palabras a números y extraer productos
-def extract_quantities_and_items(user_input):
+def extract_quantities_and_items(user_input, menu_items):
     user_input = user_input.lower()
     pattern = r'(\d+|\w+)\s+([a-záéíóúñ]+(?:\s+[a-záéíóúñ]+)*)'
     matches = re.findall(pattern, user_input)
@@ -223,6 +180,7 @@ def extract_quantities_and_items(user_input):
     
     for quantity_str, item in matches:
         item = item.strip()
+        item_normalized = normalize_text(item)
         try:
             # Intentar convertir la cantidad a número
             quantity = int(quantity_str)
@@ -232,8 +190,20 @@ def extract_quantities_and_items(user_input):
             except ValueError:
                 quantity = None
         if quantity is not None and item != '':
-            quantities.append(quantity)
-            items.append(item)
+            # Verificar si el producto está en el menú
+            item_in_menu = False
+            for menu_item in menu_items:
+                menu_item_normalized = normalize_text(menu_item)
+                if menu_item_normalized in item_normalized or item_normalized in menu_item_normalized:
+                    item_in_menu = True
+                    item = menu_item  # Usar el nombre oficial del menú
+                    break
+            if item_in_menu:
+                quantities.append(quantity)
+                items.append(item)
+            else:
+                # Producto no encontrado en el menú
+                pass  # Podrías manejar productos no encontrados si lo deseas
     return quantities, items
 
 initial_state = [
@@ -265,7 +235,7 @@ for message in st.session_state.messages:
 
 if prompt := st.chat_input():
     # Extraer cantidades e ítems
-    quantities, items = extract_quantities_and_items(prompt)
+    quantities, items = extract_quantities_and_items(prompt, all_menu_items)
     invalid_items = []
     for qty in quantities:
         if qty > 100:
@@ -275,6 +245,11 @@ if prompt := st.chat_input():
         with st.chat_message("assistant", avatar="👨‍🍳"):
             st.markdown(
                 "Lamento informarte que el límite máximo de cantidad por producto es de 100 unidades. Por favor, reduce la cantidad para procesar tu pedido."
+            )
+    elif not items:
+        with st.chat_message("assistant", avatar="👨‍🍳"):
+            st.markdown(
+                "Lo siento, algunos de los productos que solicitaste no están en nuestro menú. Por favor, revisa el menú y vuelve a intentarlo."
             )
     else:
         with st.chat_message("user", avatar="👤"):
