@@ -124,7 +124,9 @@ def display_confirmed_order(order_details):
     return table
 
 ##Pendiente
-
+def verificar_rango(numero):
+    return 1 <= numero <= 100
+	
 
 def get_system_prompt(menu, distritos):
     """Define el prompt del sistema para el bot de Sazón incluyendo el menú y distritos."""
@@ -135,11 +137,9 @@ def get_system_prompt(menu, distritos):
     También repartimos en los siguientes distritos: {display_distritos(distritos)}.\n
     Primero, saluda al cliente y ofrécele el menú. Asegúrate de que el cliente solo seleccione platos que están en el menú actual y explícales que no podemos preparar platos fuera del menú.
 	
-     Al recibir un pedido, verifica que la cantidad solicitada por el cliente no supere las 100 unidades disponibles por producto.
-     Si un cliente pide más de lo que tenemos en stock, informa amablemente que solo tenemos 100 unidades disponibles y pídele que ajuste su pedido. 
-     Por ejemplo, si el cliente pide 150 unidades de un producto, indícale que solo tenemos 100 disponibles y pídele que modifique su pedido. 
-     No proceses el pedido hasta que todas las cantidades sean válidas.
-     Si la cantidad es válida: Confirma el pedido y continua con el proceso.
+     Debes identificar números en el mensaje del usuario. 
+     Si la cantidad de platos es mayor a 100 o menor a 1, infórmale que debe elegir una cantidad entre 1 y 100. 
+     Utiliza la función {verificar_rango()} para validar la cantidad.
       
    Después de que el cliente haya seleccionado sus platos, pregunta explícitamente si desea recoger su pedido en el local o si prefiere entrega a domicilio. Asegurate que ingrese metodo de entrega .
      - Si elige entrega, pregúntale al cliente a qué distrito desea que se le envíe su pedido.Asegurate, que el cliente ingrese el distrito de entrega.Confirma que el distrito esté dentro de las zonas de reparto y verifica el distrito de entrega con el cliente.
