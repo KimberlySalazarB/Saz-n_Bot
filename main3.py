@@ -135,11 +135,7 @@ def get_system_prompt(menu, distritos):
     También repartimos en los siguientes distritos: {display_distritos(distritos)}.\n
     Primero, saluda al cliente y ofrécele el menú. Asegúrate de que el cliente solo seleccione platos que están en el menú actual y explícales que no podemos preparar platos fuera del menú.
     
-    **IMPORTANTE: Validación de cantidad solicitada**
-    -  El cliente puede indicar la cantidad en texto (por ejemplo, "uno", "veinte", "cien") o en números (por ejemplo, "1", "20", "100").
-    - Asegurate de interpretar y extraer la cantidad correctamente, ya sea en palabras o cifras, y asegúrate de asociarla con el producto adecuado.
-    - Por ejemplo, si el cliente escribe "quiero dos arroz con pollo y diez pachamanca de pollo", interpreta esto como "2 unidades de arroz con pollo" y "10 unidades de pachamanca de pollo".
-    - Si la cantidad solicitada está en el rango de 1 a 100 (inclusive), acepta el pedido sin mostrar advertencias.
+    -  El cliente solo puede pedir hasta 100 unidades.
     - Si la cantidad solicitada es mayor que 100, muestra el siguiente mensaje:
       "Lamento informarte que el límite máximo de cantidad por producto es de 100 unidades. Por favor, reduce la cantidad para procesar tu pedido."
     - Si la cantidad es menor o igual a 0, o no se reconoce como número válido, muestra:
@@ -266,6 +262,48 @@ def extract_order_json(response):
     except json.JSONDecodeError:
         # Manejo de error en caso de que el JSON no sea válido
         return {}
+
+
+
+
+def verificar_rango(cantidad, min_platos=1, max_platos=100):
+    """Verifica si la cantidad solicitada está dentro del rango permitido."""
+    return min_platos <= cantidad <= max_platos
+
+def extract_quantities(prompt):
+    # Extraer todos los números del mensaje del usuario
+    return [int(num) for num in re.findall(r'\b\d+\b', prompt)]
+
+def process_user_input(prompt):
+    # Extraer todas las cantidades del mensaje
+    cantidades = extract_quantities(prompt)
+    
+    if cantidades:
+        # Validar todas las cantidades y generar una lista de respuestas
+        invalidas = [cantidad for cantidad in cantidades if not verificar_rango(cantidad)]
+        
+        if not invalidas:
+            # Si todas las cantidades son válidas, proceder con el pedido
+            return f"Has solicitado {', '.join(map(str, cantidades))} platos. Procesando tu pedido..."
+        else:
+            # Si alguna cantidad está fuera del rango, notificar al usuario
+            return f"Las siguientes cantidades están fuera del rango permitido: {', '.join(map(str, invalidas))}. Por favor, elige cantidades entre 1 y 100."
+    else:
+        return "No se ha detectado una cantidad válida en tu pedido."
+
+# Ejemplo de uso en el chatbot
+if prompt := st.chat_input():
+    with st.chat_message("user", avatar="👤"):
+        st.markdown(prompt)
+    
+    output = process_user_input(prompt)
+    
+    with st.chat_message("assistant", avatar="👨‍🍳"):
+        st.markdown(output)
+
+
+
+
 
 def generate_response(prompt, temperature=0,max_tokens=1000):
     """Enviar el prompt a Groq y devolver la respuesta con un límite de tokens."""
