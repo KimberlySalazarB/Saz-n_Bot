@@ -1,14 +1,14 @@
-Plato,Descripción,Precio
-Arroz con Pollo,Arroz verde con pollo y salsa huancaína,12
-Tallarines Verdes,Pasta con salsa de espinaca y pollo a la parrilla,14
-Asado de pollo con pure,Pure de papa con salsa roja con pollo, 13
-Aji de gallina,Guiso de pollo deshilachado en crema de ají amarillo acompañado de papas y arroz,12
-Seco de res,Guiso de carne de res con culantro servido con frejoles y arroz,12
-Ceviche,Pescado fresco marinado en limón con cebolla ají y choclo,13
-Arroz chaufa,Arroz chaufa con trozos de pollo cebolla china y tortilla,12
-Lomo saltado,Trozos de carne de res salteados con cebolla tomate y papas fritas servido con arroz,15
-Chicharron de pollo,Trozos de pollo acompañado con papas,16
-Pachamanca de pollo,Presa de pollo con papa y camote,15
+Plato,Descripción,Precio,Stock
+Arroz con Pollo,Arroz verde con pollo y salsa huancaína,12,100
+Tallarines Verdes,Pasta con salsa de espinaca y pollo a la parrilla,14,100
+Asado de pollo con pure,Pure de papa con salsa roja con pollo, 13,100
+Aji de gallina,Guiso de pollo deshilachado en crema de ají amarillo acompañado de papas y arroz,12,100
+Seco de res,Guiso de carne de res con culantro servido con frejoles y arroz,12,100
+Ceviche,Pescado fresco marinado en limón con cebolla ají y choclo,13,100
+Arroz chaufa,Arroz chaufa con trozos de pollo cebolla china y tortilla,12,100
+Lomo saltado,Trozos de carne de res salteados con cebolla tomate y papas fritas servido con arroz,15,100
+Chicharron de pollo,Trozos de pollo acompañado con papas,16,100
+Pachamanca de pollo,Presa de pollo con papa y camote,15,100
 
 
 
