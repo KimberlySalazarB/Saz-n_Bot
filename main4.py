@@ -10,12 +10,20 @@ import json
 import logging
 from word2number import w2n  # Importación necesaria para convertir palabras a números
 import nltk
-from nltk.tokenize import word_tokenize
-from nltk import pos_tag, ne_chunk
+import os
 
-# Descargar datos necesarios de nltk
-nltk.download('punkt')
-nltk.download('averaged_perceptron_tagger')
+# Configurar el directorio de datos de NLTK
+nltk_data_path = os.path.join(os.path.dirname(_file_), 'nltk_data')
+if not os.path.exists(nltk_data_path):
+    os.makedirs(nltk_data_path)
+nltk.data.path.append(nltk_data_path)
+
+# Descargar datos necesarios de nltk en el directorio especificado
+nltk.download('punkt', download_dir=nltk_data_path)
+nltk.download('averaged_perceptron_tagger', download_dir=nltk_data_path)
+
+from nltk.tokenize import word_tokenize
+from nltk import pos_tag
 
 # Configura el logger
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -43,7 +51,7 @@ def format_menu(menu):
         return "No hay platos disponibles."
     else:
         # Encabezados de la tabla
-        table = "| **Plato** | **Descripción** | **Precio** |\n"
+        table = "| *Plato* | *Descripción* | *Precio* |\n"
         table += "|-----------|-----------------|-------------|\n"  # Línea de separación
         
         # Filas de la tabla
@@ -65,7 +73,7 @@ def display_distritos(distritos):
     """Mostrar los distritos de reparto disponibles."""
     distritos_text = "Los distritos de reparto son:\n"
     for index, row in distritos.iterrows():
-        distritos_text += f"**{row['Distrito']}**\n"
+        distritos_text += f"*{row['Distrito']}*\n"
     return distritos_text
 
 def display_postre(postre):
@@ -90,11 +98,11 @@ postres = load("Postres.csv")
 
 def display_confirmed_order(order_details):
     """Genera una tabla en formato Markdown para el pedido confirmado."""
-    table = "| **Plato** | **Cantidad** | **Precio Total** |\n"
+    table = "| *Plato* | *Cantidad* | *Precio Total* |\n"
     table += "|-----------|--------------|------------------|\n"
     for item in order_details:
         table += f"| {item['Plato']} | {item['Cantidad']} | S/{item['Precio Total']:.2f} |\n"
-    table += "| **Total** |              | **S/ {:.2f}**      |\n".format(sum(item['Precio Total'] for item in order_details))
+    table += "| *Total* |              | *S/ {:.2f}*      |\n".format(sum(item['Precio Total'] for item in order_details))
     return table
 
 def get_system_prompt(menu, distritos):
@@ -106,11 +114,11 @@ def get_system_prompt(menu, distritos):
     También repartimos en los siguientes distritos: {display_distritos(distritos)}.\n
     Primero, saluda al cliente y ofrécele el menú. Asegúrate de que el cliente solo seleccione platos que están en el menú actual y explícales que no podemos preparar platos fuera del menú.
 
-    **Interpretación de cantidades:**
+    *Interpretación de cantidades:*
     - El cliente puede indicar la cantidad en texto o en números.
     - Convierte cualquier cantidad escrita en palabras a su valor numérico antes de procesarla (por ejemplo, "dieciséis" a 16, "cincuenta" a 50).
 
-    **IMPORTANTE: Validación de cantidad solicitada**
+    *IMPORTANTE: Validación de cantidad solicitada*
     - Si la cantidad solicitada está en el rango de 1 a 100 (inclusive), acepta el pedido sin mostrar advertencias.
     - Si la cantidad solicitada es mayor que 100, muestra el siguiente mensaje:
       "Lamento informarte que el límite máximo de cantidad por producto es de 100 unidades. Por favor, reduce la cantidad para procesar tu pedido."
@@ -124,10 +132,10 @@ def get_system_prompt(menu, distritos):
     Usa solo español peruano en tus respuestas, evitando palabras como "preferís" y empleando "prefiere" en su lugar.
 
     Antes de continuar, confirma que el cliente haya ingresado un método de entrega válido. Luego, resume el pedido en la siguiente tabla:\n
-    | **Plato**      | **Cantidad** | **Precio Total** |\n
+    | *Plato*      | *Cantidad* | *Precio Total* |\n
     |----------------|--------------|------------------|\n
     |                |              |                  |\n
-    | **Total**      |              | **S/ 0.00**      |\n
+    | *Total*      |              | *S/ 0.00*      |\n
 
     Aclara que el monto total del pedido no acepta descuentos ni ajustes de precio.
 
@@ -240,7 +248,7 @@ def extract_quantities_and_items(user_input):
                     quantity = int(word)
                 else:
                     quantity = None
-        elif tag == 'NN' or tag == 'NNS' or tag == 'JJ':
+        elif tag.startswith('NN') or tag == 'JJ':
             item += word + ' '
         elif word == ',' or word == 'y':
             if quantity is not None and item.strip() != '':
@@ -300,6 +308,9 @@ if prompt := st.chat_input():
     else:
         with st.chat_message("user", avatar="👤"):
             st.markdown(prompt)
+        output = generate_response(prompt)
+        with st.chat_message("assistant", avatar="👨‍🍳"):
+            st.markdown(output)
         output = generate_response(prompt)
         with st.chat_message("assistant", avatar="👨‍🍳"):
             st.markdown(output)
