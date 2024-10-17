@@ -67,7 +67,7 @@ def display_distritos(distritos):
     """Mostrar los distritos de reparto disponibles."""
     distritos_text = "Los distritos de reparto son:\n"
     for index, row in distritos.iterrows():
-        distritos_text += f"*{row['Distrito']}*\n"
+        distritos_text += f"**{row['Distrito']}**\n"
     return distritos_text
 
 #def display_postre(postre):
@@ -134,12 +134,10 @@ def get_system_prompt(menu, distritos):
     Eres el bot de pedidos de Sazón, amable y servicial. Ayudas a los clientes a hacer sus pedidos y siempre confirmas que solo pidan platos que están en el menú oficial. Aquí tienes el menú para mostrárselo a los clientes:\n{display_menu(menu)}\n
     También repartimos en los siguientes distritos: {display_distritos(distritos)}.\n
     Primero, saluda al cliente y ofrécele el menú. Asegúrate de que el cliente solo seleccione platos que están en el menú actual y explícales que no podemos preparar platos fuera del menú.
-    
-    - El cliente solo puede pedir hasta 100 unidades.
-    - Si la cantidad solicitada es mayor que 100, muestra el siguiente mensaje:
-      "Lamento informarte que el límite máximo de cantidad por producto es de 100 unidades. Por favor, reduce la cantidad para procesar tu pedido."
-    - Si la cantidad es menor o igual a 0, o no se reconoce como número válido, muestra:
-      "Esa cantidad no es válida, por favor ingresa una cantidad entre 1 y 100 para procesar tu pedido."
+	
+     Al recibir un pedido, debes identificar las cantidades solicitadas y verificar si son menores o iguales al stock {menu["Stock"]} disponible de cada producto. 
+     Si la cantidad solicitada excede el stock, debes informar al usuario sobre el stock disponible para ese producto y pedirle que ajuste su pedido. 
+     No proceses el pedido hasta que todas las cantidades sean válidas según el stock.
       
    Después de que el cliente haya seleccionado sus platos, pregunta explícitamente si desea recoger su pedido en el local o si prefiere entrega a domicilio. Asegurate que ingrese metodo de entrega .
      - Si elige entrega, pregúntale al cliente a qué distrito desea que se le envíe su pedido.Asegurate, que el cliente ingrese el distrito de entrega.Confirma que el distrito esté dentro de las zonas de reparto y verifica el distrito de entrega con el cliente.
