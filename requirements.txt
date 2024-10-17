@@ -4,3 +4,4 @@ openai
 groq
 fuzzywuzzy
 nltk
+word2number
