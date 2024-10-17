@@ -147,7 +147,7 @@ def get_system_prompt(menu, distritos):
        - Una vez identificada la cantidad, conviértela a un número entero.
        - Usa la función `verificar_rango()` para asegurarte de que la cantidad esté dentro del rango permitido (1 a 100).
        - Si la cantidad es menor que 1 o mayor que 100, responde de manera educada pidiendo que el cliente ajuste la cantidad dentro de los límites permitidos. Por ejemplo: 
-          "Has solicitado {cantidad_detectada} porciones de {plato}. Sin embargo, el rango permitido es de 1 a 100. Por favor, ajusta la cantidad."
+          "Has solicitado cantidad_detectada porciones de plato. Sin embargo, el rango permitido es de 1 a 100. Por favor, ajusta la cantidad."
 
     3. **Detección de múltiples platos**:
        - El cliente puede pedir varios platos en un solo mensaje. Asegúrate de identificar las cantidades para cada plato solicitado y validarlas individualmente. Por ejemplo, si el cliente dice "quiero tres ceviches y cinco lomos saltados", extrae ambas cantidades y realiza la validación para cada plato.     
