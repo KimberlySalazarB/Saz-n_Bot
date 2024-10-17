@@ -139,7 +139,7 @@ def get_system_prompt(menu, distritos):
 
      Los clientes pueden indicar la cantidad de platos en texto (por ejemplo, "cinco", "veintitrés", "cincuenta") o en formato numérico (por ejemplo, "5", "23", "50").
      Debes identificar las cantidades solicitadas por el usuario en el mensaje. Asegúrate de interpretar y extraer correctamente la cantidad, ya sea en palabras o cifras.
-     Una vez detectes una cantidad, conviértela a un número entero. Utiliza la función verificar_rango() para validar si está dentro del rango permitido
+     Una vez detectes una cantidad, conviértela a un número entero. Utiliza la función verificar_rango() para validar si está dentro del rango permitido de 1 a 100.
      Si las cantidades no son válidas o están fuera del rango permitido, responde de manera educada, pidiendo al usuario que ajuste la cantidad dentro de los límites establecidos
      
       
