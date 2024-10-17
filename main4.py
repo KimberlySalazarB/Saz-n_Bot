@@ -9,27 +9,6 @@ import pytz
 import json
 import logging
 from word2number import w2n  # Importación necesaria para convertir palabras a números
-import nltk
-import os
-
-# Configurar el directorio de datos de NLTK
-if '_file_' in globals():
-    script_dir = os.path.dirname(os.path.abspath(_file_))
-else:
-    # En entornos como Streamlit Cloud, _file_ puede no estar definido
-    script_dir = os.getcwd()
-
-nltk_data_path = os.path.join(script_dir, 'nltk_data')
-if not os.path.exists(nltk_data_path):
-    os.makedirs(nltk_data_path)
-nltk.data.path.append(nltk_data_path)
-
-# Descargar datos necesarios de nltk en el directorio especificado
-nltk.download('punkt', download_dir=nltk_data_path)
-nltk.download('averaged_perceptron_tagger', download_dir=nltk_data_path)
-
-from nltk.tokenize import word_tokenize
-from nltk import pos_tag
 
 # Configura el logger
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -236,39 +215,25 @@ def generate_response(prompt, temperature=0.5, max_tokens=1000):
 # Función para convertir cantidades escritas en palabras a números y extraer productos
 def extract_quantities_and_items(user_input):
     user_input = user_input.lower()
-    tokens = word_tokenize(user_input)
-    tagged_tokens = pos_tag(tokens)
-
+    pattern = r'(\d+|\w+)\s+([a-záéíóúñ]+(?:\s+[a-záéíóúñ]+)*)'
+    matches = re.findall(pattern, user_input)
+    
     quantities = []
     items = []
-    quantity = None
-    item = ''
-
-    for word, tag in tagged_tokens:
-        if tag == 'CD':  # Cardinal numbers
+    
+    for quantity_str, item in matches:
+        item = item.strip()
+        try:
+            # Intentar convertir la cantidad a número
+            quantity = int(quantity_str)
+        except ValueError:
             try:
-                # Intenta convertir el número en texto a entero
-                quantity = w2n.word_to_num(word)
+                quantity = w2n.word_to_num(quantity_str)
             except ValueError:
-                if word.isdigit():
-                    quantity = int(word)
-                else:
-                    quantity = None
-        elif tag.startswith('NN') or tag == 'JJ':
-            item += word + ' '
-        elif word == ',' or word == 'y':
-            if quantity is not None and item.strip() != '':
-                quantities.append(quantity)
-                items.append(item.strip())
                 quantity = None
-                item = ''
-        else:
-            item += word + ' '
-
-    if quantity is not None and item.strip() != '':
-        quantities.append(quantity)
-        items.append(item.strip())
-
+        if quantity is not None and item != '':
+            quantities.append(quantity)
+            items.append(item)
     return quantities, items
 
 initial_state = [
@@ -305,7 +270,7 @@ if prompt := st.chat_input():
     for qty in quantities:
         if qty > 100:
             invalid_items.append(qty)
-
+    
     if invalid_items:
         with st.chat_message("assistant", avatar="👨‍🍳"):
             st.markdown(
