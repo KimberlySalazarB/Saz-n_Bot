@@ -124,6 +124,30 @@ def display_confirmed_order(order_details):
     return table
 
 ##Pendiente
+
+def palabras_a_numero(palabra):
+    """Convierte un número en palabras a su valor en cifras."""
+    
+    # Diccionario básico para los números escritos en español
+    numeros = {
+        "uno": 1, "dos": 2, "tres": 3, "cuatro": 4, "cinco": 5,
+        "seis": 6, "siete": 7, "ocho": 8, "nueve": 9, "diez": 10,
+        "once": 11, "doce": 12, "trece": 13, "catorce": 14, "quince": 15,
+        "dieciséis": 16, "diecisiete": 17, "dieciocho": 18, "diecinueve": 19, "veinte": 20,
+        "veintiuno": 21, "veintidós": 22, "veintitrés": 23, "veinticuatro": 24, "veinticinco": 25,
+        "veintiséis": 26, "veintisiete": 27, "veintiocho": 28, "veintinueve": 29, "treinta": 30,
+        "cuarenta": 40, "cincuenta": 50, "sesenta": 60, "setenta": 70, "ochenta": 80, "noventa": 90,
+        "cien": 100
+    }
+    
+    # Manejo de números compuestos (como "treinta y cinco")
+    if " y " in palabra:
+        partes = palabra.split(" y ")
+        return numeros[partes[0]] + numeros[partes[1]]
+    
+    # Si es un número exacto (como "cinco" o "veintitrés")
+    return numeros.get(palabra.lower(), None)
+
 def verificar_rango(numero):
     return 1 <= numero <= 100
 	
@@ -137,17 +161,20 @@ def get_system_prompt(menu, distritos):
     También repartimos en los siguientes distritos: {display_distritos(distritos)}.\n
     Primero, saluda al cliente y ofrécele el menú. Asegúrate de que el cliente solo seleccione platos que están en el menú actual y explícales que no podemos preparar platos fuera del menú.
 
-     Los clientes pueden indicar la cantidad de platos en texto (por ejemplo, "cinco", "veintitrés", "cincuenta") o en formato numérico (por ejemplo, "5", "23", "50").
+    Los clientes pueden indicar la cantidad de platos en texto (por ejemplo, "cinco", "veintitrés", "cincuenta") o en formato numérico (por ejemplo, "5", "23", "50").
     Debes identificar las cantidades solicitadas por el usuario en el mensaje. Asegúrate de interpretar y extraer correctamente la cantidad, ya sea en palabras o cifras.
+
+    Utiliza la función **palabras_a_numero()** para convertir cualquier número en palabras a su equivalente en cifras. Luego, convierte la cantidad resultante en un número entero.
     
     Una vez detectes una cantidad, conviértela a un número entero. Utiliza la función **verificar_rango()** para validar si está dentro del rango permitido de 1 a 100:
     - Si la cantidad está dentro del rango permitido, confirma el pedido de manera adecuada.
     - Si la cantidad está fuera del rango permitido (menor que 1 o mayor que 100), responde de manera educada, pidiendo al usuario que ajuste la cantidad dentro de los límites establecidos.
 
     Aquí un ejemplo de cómo manejar cantidades:
-    1. Si el cliente pide "cinco pachamancas de pollo", identifica "cinco" y conviértelo a 5.
+    1. Si el cliente pide "cinco pachamancas de pollo", identifica "cinco", conviértelo a 5 utilizando **palabras_a_numero()** y procede.
     2. Si el cliente pide "13 pachamancas de pollo", identifica "13" y mantén el número como 13.
-    3. Si el cliente pide "150 pachamancas de pollo", responde: "Lo sentimos, solo puedes pedir entre 1 y 100 unidades de cada plato. Por favor, ajusta tu cantidad."
+    3. Si el cliente pide "cincuenta ceviches", identifica "cincuenta", conviértelo a 50 y procede con el pedido.
+    4. Si el cliente pide "150 pachamancas de pollo", responde: "Lo sentimos, solo puedes pedir entre 1 y 100 unidades de cada plato. Por favor, ajusta tu cantidad."
 
    Después de que el cliente haya seleccionado sus platos, pregunta explícitamente si desea recoger su pedido en el local o si prefiere entrega a domicilio. Asegurate que ingrese metodo de entrega .
      - Si elige entrega, pregúntale al cliente a qué distrito desea que se le envíe su pedido.Asegurate, que el cliente ingrese el distrito de entrega.Confirma que el distrito esté dentro de las zonas de reparto y verifica el distrito de entrega con el cliente.
