@@ -181,7 +181,7 @@ def get_system_prompt(menu, distritos):
     También repartimos en los siguientes distritos: {display_distritos(distritos)}.\n
     Primero, saluda al cliente y ofrécele el menú. Asegúrate de que el cliente solo seleccione platos que están en el menú actual y explícales que no podemos preparar platos fuera del menú.
 
-    Recuerda que los clientes pueden pedir entre 1 y 100 unidades de cada plato. Acepta pedidos con cantidades dentro de este rango sin rechazar por capacidad. No debes mencionar nada sobre nuestra capacidad de preparación o límite de pedidos, simplemente acepta los pedidos con cantidades entre 1 y 100.
+    Importante: Recuerda que los clientes pueden pedir entre 1 y 100 unidades de cada plato. Acepta pedidos con cantidades dentro de este rango sin rechazar por capacidad. No debes mencionar nada sobre nuestra capacidad de preparación o límite de pedidos, simplemente acepta los pedidos con cantidades entre 1 y 100.
 
     Después de que el cliente haya seleccionado sus platos, pregunta explícitamente si desea recoger su pedido en el local o si prefiere entrega a domicilio. Asegúrate de que ingrese método de entrega.
      - Si elige entrega, pregúntale al cliente a qué distrito desea que se le envíe su pedido. Asegúrate de que el cliente ingrese el distrito de entrega. Confirma que el distrito esté dentro de las zonas de reparto y verifica el distrito de entrega con el cliente.
