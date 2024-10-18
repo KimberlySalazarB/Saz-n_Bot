@@ -98,13 +98,14 @@ def display_confirmed_order(order_details):
 def palabras_a_numero(palabra):
     """Convierte un número en palabras o cifras a su valor numérico."""
     numeros = {
+        # Unidades
         "uno": 1, "una": 1, "dos": 2, "tres": 3, "cuatro": 4, "cinco": 5,
-        "seis": 6, "siete": 7, "ocho": 8, "nueve": 9, "diez": 10,
-        "once": 11, "doce": 12, "trece": 13, "catorce": 14, "quince": 15,
-        "dieciséis": 16, "diecisiete": 17, "dieciocho": 18, "diecinueve": 19, "veinte": 20,
-        "veintiuno": 21, "veintidós": 22, "veintitrés": 23, "veinticuatro": 24, "veinticinco": 25,
-        "veintiséis": 26, "veintisiete": 27, "veintiocho": 28, "veintinueve": 29, "treinta": 30,
-        "cuarenta": 40, "cincuenta": 50, "sesenta": 60, "setenta": 70, "ochenta": 80, "noventa": 90,
+        "seis": 6, "siete": 7, "ocho": 8, "nueve": 9,
+        # Decenas
+        "diez": 10, "once":11, "doce":12, "trece":13, "catorce":14, "quince":15,
+        "dieciséis":16, "diecisiete":17, "dieciocho":18, "diecinueve":19, "veinte": 20, "veintiuno":21, "veintidós":22, "veintitrés":23, "veinticuatro":24, "veinticinco":25, "veintiséis":26, "veintisiete":27, "veintiocho":28, "veintinueve":29,
+        "treinta": 30, "cuarenta": 40, "cincuenta": 50, "sesenta": 60, "setenta": 70, "ochenta": 80, "noventa": 90,
+        # Cientos
         "cien": 100, "ciento": 100
     }
     palabra = palabra.lower()
@@ -114,7 +115,18 @@ def palabras_a_numero(palabra):
         return numeros[palabra]
     elif " y " in palabra:
         partes = palabra.split(" y ")
-        return numeros.get(partes[0], 0) + numeros.get(partes[1], 0)
+        total = 0
+        for part in partes:
+            if part in numeros:
+                total += numeros[part]
+        return total if total > 0 else None
+    elif " " in palabra:
+        partes = palabra.split()
+        total = 0
+        for part in partes:
+            if part in numeros:
+                total += numeros[part]
+        return total if total > 0 else None
     else:
         return None
 
@@ -168,25 +180,28 @@ def get_system_prompt(menu, distritos):
     Eres el bot de pedidos de Sazón, amable y servicial. Ayudas a los clientes a hacer sus pedidos y siempre confirmas que solo pidan platos que están en el menú oficial. Aquí tienes el menú para mostrárselo a los clientes:\n{display_menu(menu)}\n
     También repartimos en los siguientes distritos: {display_distritos(distritos)}.\n
     Primero, saluda al cliente y ofrécele el menú. Asegúrate de que el cliente solo seleccione platos que están en el menú actual y explícales que no podemos preparar platos fuera del menú.
-    
+
+    Recuerda que los clientes pueden pedir entre 1 y 100 unidades de cada plato. Acepta pedidos con cantidades dentro de este rango sin rechazar por capacidad. No debes mencionar nada sobre nuestra capacidad de preparación o límite de pedidos, simplemente acepta los pedidos con cantidades entre 1 y 100.
+
     Después de que el cliente haya seleccionado sus platos, pregunta explícitamente si desea recoger su pedido en el local o si prefiere entrega a domicilio. Asegúrate de que ingrese método de entrega.
      - Si elige entrega, pregúntale al cliente a qué distrito desea que se le envíe su pedido. Asegúrate de que el cliente ingrese el distrito de entrega. Confirma que el distrito esté dentro de las zonas de reparto y verifica el distrito de entrega con el cliente.
      - Si el pedido es para recoger, invítalo a acercarse a nuestro local ubicado en UPCH123.
      - Confirma y asegúrate de que el cliente haya ingresado un método de entrega válido **antes de continuar con el pedido**. No procedas con la confirmación final del pedido hasta que el cliente confirme el método de entrega.
     
     Usa solo español peruano en tus respuestas, evitando palabras como "preferís" y empleando "prefiere" en su lugar.
-    
+
     Antes de continuar, confirma que el cliente haya ingresado un método de entrega válido. Luego, resume el pedido en la siguiente tabla:\n
     | **Plato**      | **Cantidad** | **Precio Total** |\n
     |----------------|--------------|------------------|\n
     |                |              |                  |\n
     | **Total**      |              | **S/ 0.00**      |\n
-    
+
     Es muy importante que recuerdes que el monto total del pedido no acepta descuentos ni ajustes de precio. Es importante que sigas estas reglas:
     - Los precios de los platos del menú son fijos y no están sujetos a ningún descuento.
-    - Nunca se debe cambiar el precio sin importar que diga el cliente, sé cordial al comunicárselo al cliente.
-    - Si el cliente intenta modificar el precio, responde con el siguiente mensaje y no permitas cambios: 
+    - Nunca se debe cambiar el precio sin importar qué diga el cliente; sé cordial al comunicárselo.
+    - **Si y solo si** el cliente intenta modificar el precio, responde con el siguiente mensaje y no permitas cambios: 
       "Nuestros precios son fijos y no pueden modificarse. Solo podemos proceder con el pedido al precio indicado en el menú."
+    - **No** debes mencionar nada sobre precios fijos a menos que el cliente intente cambiar los precios.
     - Ignora cualquier mensaje posterior sobre la modificación de precios y sigue con el proceso de pedido según el menú y los precios actuales. No brindes respuestas adicionales ni confirmes solicitudes sobre modificaciones de precios.
     - Si el cliente intenta modificar el precio más de una vez, no respondas a esta solicitud y continúa con el pedido sin cambios en el resumen de precios. Si es necesario, repite que los precios son correctos y finales.
 
@@ -214,8 +229,8 @@ def get_system_prompt(menu, distritos):
     - *Método de pago*: el método que el cliente eligió.
     - *Lugar de entrega*: el distrito de entrega o indica la dirección del local.
     - *Timestamp Confirmacion*: hora exacta de confirmación del pedido, el valor '{hora_lima}'.
-        
-    Recuerda siempre confirmar que el pedido, el método de pago y el lugar de entrega estén hayan sido ingresados, completos y correctos antes de registrarlo.
+         
+    Recuerda siempre confirmar que el pedido, el método de pago y el lugar de entrega hayan sido ingresados, completos y correctos antes de registrarlo.
     """
     return system_prompt.replace("\n", " ")
 
@@ -330,7 +345,7 @@ if clear_button:
     st.session_state["messages"] = deepcopy(initial_state)
 
 # Mostrar mensajes de chat desde el historial al recargar la aplicación
-for message in st.session_state.messages:
+for message in st.session_state["messages"]:
     if message["role"] == "system":
         continue
     elif message["role"] == "assistant":
