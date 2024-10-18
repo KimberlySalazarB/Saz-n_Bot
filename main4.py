@@ -196,7 +196,7 @@ def get_system_prompt(menu, distritos):
     |                |              |                  |\n
     | **Total**      |              | **S/ 0.00**      |\n
 
-    Después de que muestres la tabla del resumen del pedido. Es muy importante que recuerdes que el monto total del pedido no acepta descuentos ni ajustes de precio. Es importante que sigas estas reglas:
+    Es muy importante que recuerdes que el monto total del pedido no acepta descuentos ni ajustes de precio. Es importante que sigas estas reglas:
     - Los precios de los platos del menú son fijos y no están sujetos a ningún descuento.
     - Nunca se debe cambiar el precio sin importar qué diga el cliente; sé cordial al comunicárselo.
     - **Si y solo si** el cliente intenta modificar el precio, responde con el siguiente mensaje y no permitas cambios: 
@@ -277,8 +277,22 @@ def extract_order_json(response):
     # Intenta cargar como JSON
     try:
         order_json = json.loads(response_content)
-        logging.info(json.dumps(order_json, indent=4) if order_json else '{}')
-        return order_json
+        if isinstance(order_json, dict):
+            if all(order_json[key] not in (None, '', [], {}) for key in order_json):
+                return order_json
+            else:
+                print("Advertencia: Hay claves con valores nulos o vacíos en el pedido.")
+                return {}
+            # Verifica que todas las claves en order_json tengan valores no nulos
+            #return order_json if order_json else {}
+        
+        # Si el JSON es una lista, devuelves un diccionario vacío o manejas la lista de otro modo
+        elif isinstance(order_json, list):
+            print("Advertencia: Se recibió una lista en lugar de un diccionario.")
+            return {}
+            
+        ##logging.info(json.dumps(order_json, indent=4) if order_json else '{}')
+        ##return order_json
     except json.JSONDecodeError:
         # Manejo de error en caso de que el JSON no sea válido
         return {}
