@@ -196,7 +196,7 @@ def get_system_prompt(menu, distritos):
     |                |              |                  |\n
     | **Total**      |              | **S/ 0.00**      |\n
 
-    Es muy importante que recuerdes que el monto total del pedido no acepta descuentos ni ajustes de precio. Es importante que sigas estas reglas:
+    Después de que muestres el resumen del pedido. Es muy importante que recuerdes que el monto total del pedido no acepta descuentos ni ajustes de precio. Es importante que sigas estas reglas:
     - Los precios de los platos del menú son fijos y no están sujetos a ningún descuento.
     - Nunca se debe cambiar el precio sin importar qué diga el cliente; sé cordial al comunicárselo.
     - **Si y solo si** el cliente intenta modificar el precio, responde con el siguiente mensaje y no permitas cambios: 
