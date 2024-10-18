@@ -220,7 +220,7 @@ def get_system_prompt(menu, distritos):
     - *Solo si el cliente confirma estar de acuerdo con el pedido*, después, pregunta: "¿Cuál será tu método de pago?" 
         - Ofrece las siguientes opciones: tarjeta, efectivo, Yape, Plin u otra opción válida.  
         - Si el cliente no responde claramente, insiste amablemente hasta obtener un método de pago válido: "Por favor, indícanos tu método de pago para continuar."
-    - *Importante*: No puedes asumir el método de pago por defecto. Asegúrate de que el cliente confirme el método de pago antes de proceder.
+    - *Importante*: No puedes asumir el método de pago por defecto. Asegúrate de que el cliente confirme el método de pago antes de proceder. No puedes proceder sin que haya ingresado el método de pago.
 
     Luego, solo cuando el cliente haya ingresado el método de pago, continúa con el proceso de confirmación final. Muestra lo siguiente el pedido confirmado: 
     Incluye explícitamente:
